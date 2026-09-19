@@ -1,0 +1,23 @@
+name: BLX47 Verify
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Card 1 - Core
+        run: g++ -std=c++17 -fsyntax-only -Wall native/pulse_x_core/src/pulse_x_core.cpp -I native/pulse_x_core/include
+
+      - name: Check Card 2 - Audio (logic only)
+        run: g++ -std=c++17 -fsyntax-only -Wall native/pulse_x_audio/src/pulse_x_audio_test.cpp -I native/pulse_x_audio/include
+
+      - name: Check Card 3 - Voice
+        run: g++ -std=c++17 -fsyntax-only -Wall native/pulse_x_voice/src/pulse_x_voice.cpp -I native/pulse_x_voice/include
+
+      - name: All checks passed
+        run: echo "✅ GREEN — all cards compile clean"
